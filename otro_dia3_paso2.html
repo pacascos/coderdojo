@@ -1,0 +1,80 @@
+<html>
+<head>
+	<title>coderdojo</title>
+
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+    var rect = {
+      x: 300,
+      y: 0,
+      vy: 3,
+      lado: 50
+    };
+
+    var canvas = document.getElementById("game_canvas");
+    var c = canvas.getContext('2d');
+
+    var keysDown = {};
+    window.addEventListener('keydown', function(e) {
+      keysDown[e.keyCode] = true;
+    });
+    window.addEventListener('keyup', function(e) {
+      delete keysDown[e.keyCode];
+    });
+
+    setInterval(function() {
+      // Clear display
+      c.fillStyle = "rgba(0, 0, 0, .8)";
+      c.fillRect(0, 0, canvas.width, canvas.height);
+      	
+
+      if (rect.y+rect.lado > canvas.height){
+        rect.y = canvas.height-rect.lado
+        console.log("toca fin:" + rect.y)
+      }
+      if (rect.y+rect.lado < rect.lado){
+        rect.y = 0
+        console.log("toca top:"+rect.y)
+      }
+      if (rect.x+rect.lado > canvas.width){
+        rect.x = canvas.width-rect.lado
+        console.log("toca derecha:" + rect.x)
+      }
+      if (rect.x+rect.lado < rect.lado){
+        rect.x = 0
+        console.log("toca izquierda:"+rect.x)
+      }
+      //console.log("estoy en:" + rect.y)
+      // pinta el rectangulo
+      if (38 in keysDown) {
+              rect.y -= rect.vy;
+          }
+      if (40 in keysDown) {
+              rect.y += rect.vy;
+          }
+      if (37 in keysDown) {
+              rect.x -= rect.vy;
+          }
+      if (39 in keysDown) {
+              rect.x += rect.vy;
+          }
+
+      c.fillStyle = "#00f";
+      c.fillRect(rect.x,rect.y,rect.lado,rect.lado);
+        
+
+    }, 1000 / 77);
+
+}
+</script>
+</head>
+<body>
+<h1>animacion rectanguo</h1>
+
+<canvas id="game_canvas" width="500" height="500" style="border:1px solid #FF00FF;"></canvas>
+
+</body>
+</html>

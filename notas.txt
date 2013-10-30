@@ -1,0 +1,38 @@
+		context.beginPath();
+		context.moveTo(100,100);
+		context.lineTo(300,400);
+		context.closePath();
+		context.stroke();
+
+
+
+		 antes_de_jquery()
+	{
+		var game = document.getElementById("game_canvas");
+		context = game.getContext("2d");
+		
+//rectangulos
+		context.fillStyle = "rgb(255,0,0)";
+		context.fillRect(100,100,200,200);
+		context.fillRect(400,200,50,50);
+		
+//lineas
+		context.beginPath();
+		context.moveTo(100,100);
+		context.lineTo(300,400);
+		context.closePath();
+		context.stroke();
+//arcos
+		context.fillStyle = "rgb(0,0,0)";
+		context.beginPath();
+		context.arc(200,200,60,45,Math.PI*2,false)
+		context.closePath();
+		context.fill();
+	}
+
+
+	context.shadowColor = "rgb(247,200,17";
+		context.shadowBlur = 50;
+		context.shadowOffsetX = 10;
+		context.shadowOffsety = 10;
+		context.fillRect(100,100,100,100);

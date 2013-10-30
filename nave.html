@@ -1,0 +1,97 @@
+<html>
+<head>
+<title = cool html5></title>
+<link rel="stylesheet" href="html5_game.css"/>
+<script type="text/javascript">
+
+	window.onload = function(){
+
+		var juego = document.getElementById("game_canvas");
+		c = juego.getContext("2d");
+
+		var size = 80;
+		
+		var canvasWidth = juego.width;
+		var canvasHeight = juego.height;
+
+		var numShapes;
+		var shapesArray;
+		var ship;
+
+		var Shape = function(x,y,width,height,vX){
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.vX = vX;
+
+
+		};
+		
+
+
+		function init(){
+
+			startGame();
+
+		};
+
+		function startGame(){
+
+			numShapes = 120;
+			shapesArray = new Array();
+
+			ship = new Image();
+			ship.src = "small_ship.png";
+
+			for(var i=0; i<numShapes; i++){
+				var x = Math.random()*canvasWidth;
+				var y = Math.random()*canvasHeight;
+				var width = Math.random()*5;
+				var height = width;
+				var vX = -2;
+
+				shapesArray.push(new Shape(x,y,width,height,vX));
+			}
+			animate();
+
+		};
+
+		function animate(){
+
+			shapesLength = shapesArray.length;
+			c.clearRect(0,0,canvasWidth,canvasHeight);
+			c.fillStyle = 'yellow';
+
+			for (var i=0; i < shapesLength; i++){
+				tmpShape = shapesArray[i];
+				c.fillRect(tmpShape.x,tmpShape.y,tmpShape.width,tmpShape.height);
+				tmpShape.x += tmpShape.vX;
+
+				if (tmpShape.x+tmpShape.width < 0){
+					tmpShape.x = canvasWidth+100
+					tmpShape.y = Math.random()*canvasHeight;
+					tmpShape.width = Math.random()*5;
+					tmpShape.height = tmpShape.width;
+
+				}
+				c.drawImage(ship,100,100);
+				
+			};
+
+			setTimeout(animate,15)
+
+		};
+
+		init();
+
+	}
+
+</script>
+</head>
+<body>
+<h1>aqui va el juego</h1>
+<p>score: 500</p>
+<canvas id="game_canvas" width="500" height="500"></canvas>
+</body>
+</html>

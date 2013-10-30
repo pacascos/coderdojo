@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>coderdojo</title>
+
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+var rect = {
+  x: 300,
+  y: 0,
+  vy: 3,
+  lado: 25
+};
+
+var canvas = document.getElementById("game_canvas");
+var c = canvas.getContext('2d');
+
+setInterval(function() {
+
+  // Clear display
+    c.fillStyle = "rgba(0, 0, 0, .3)";
+    c.fillRect(0, 0, canvas.width, canvas.height);
+  // 1 - apply velocity to position (vx -> x)
+  rect.y += rect.vy;
+  //para acelerar
+  //rect.vy += .1; 
+  //console.log(rect.y);
+  // toca el suelo?  
+  if (rect.y + rect.lado > canvas.height) {
+    rect.vy =  rect.vy * -1;  
+  }
+   // toca el techo?  
+  if (rect.y  < 0) {
+    rect.vy =  rect.vy * -1;  
+  }
+  // pinta el rectangulo
+    c.fillStyle = "#00f";
+    c.fillRect(rect.x,rect.y,rect.lado,rect.lado)
+}, 1000 / 77);
+
+}
+</script>
+</head>
+<body>
+<h1>animacion rectanguo</h1>
+
+<canvas id="game_canvas" width="500" height="500" style="border:1px solid #FF00FF;"></canvas>
+
+</body>
+</html>

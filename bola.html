@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title>juego1 coderdojo</title>
+<link rel="stylesheet" href="html5_game.css"/>
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+var ball = {
+  x: 300,
+  y: 200,
+  r: 15,
+  vx: 0,
+  vy: 0
+};
+
+var canvas = document.getElementById("game_canvas");
+var ctx = canvas.getContext('2d');
+
+
+
+setInterval(function() {
+
+  // Clear display
+  ctx.save();
+    ctx.fillStyle = "rgba(0, 0, 0, .3)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+
+  // Update ball (with Physics! =)
+
+  // 1 - apply velocity to position (vx -> x)
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+
+  // 2 - apply drag/friction to velocity
+  ball.vx *= .98;
+  ball.vy *= .98;
+
+  // 3 - apply gravity to velocity
+  ball.vy += .25;
+
+  // 4 - check for collisions
+  if (ball.y + ball.r > canvas.height) {
+    ball.y = canvas.height - ball.r;
+    ball.vy = -Math.abs(ball.vy);
+  }
+
+  // Draw ball
+  ctx.save();
+    ctx.translate(ball.x, ball.y);
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(0, 0, ball.r, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fill();
+  ctx.restore();
+
+}, 1000 / 77);
+
+}
+</script>
+</head>
+<body>
+<h1>animacion bola</h1>
+
+<canvas id="game_canvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+
+
+
+</body>
+</html>
