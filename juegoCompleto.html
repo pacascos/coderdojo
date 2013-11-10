@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+
+	<html>
+
+		<head>
+
+			<title>Cool Html5</title>
+			<link rel="stylesheet" href="juegoCompleto.css"/>
+			<meta charset = "utf-8">
+			
+			<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+			<script type="text/javascript">
+			
+				$(document).ready(function(){
+				
+					var canvas = $("#game_canvas");
+					var context = canvas.get(0).getContext("2d");
+					
+					var canvasWidth = canvas.width();
+					var canvasHeight = canvas.height();
+					
+					var playGame;
+					var numShapes;
+					var shapesArray;
+					var ship;
+					var asteroidsArray;
+					var numAsteroids;
+					var asteroidImg;
+			
+					var clickDown;
+					
+					var endGame = $("#gameOver");
+					
+						
+					var Shape = function(x,y,width,height,vX){
+					this.x = x;
+					this.y = y;
+					this.width = width;
+					this.height = height;
+					this.vX = vX;
+					
+					};
+					
+					var spaceShip = function(x,y,width,height,vX,vY){
+					this.x = x;
+					this.y = y;
+					this.width = width;
+					this.height = height;
+					this.vX = vX;
+					this.vY = vY;
+
+					};
+					var asteroid = function(x,y,width,height,vX){
+					this.x = x;
+					this.y = y;
+					this.width = width;
+					this.height = height;
+					this.vX = vX;
+					}
+					
+					$(canvas).mousedown(function(e){
+						e.preventDefault();
+						clickDown = true;
+					});
+					
+					$(canvas).mouseup(function(e){
+						e.preventDefault();
+						clickDown = false;
+					
+					});
+					
+					function init(){
+					
+						playGame = false;
+						startGame();
+					
+					};
+					
+					function startGame(){
+					
+						playGame = true;
+						numShapes =40;
+						shapesArray = new Array();
+						endGame.hide();
+						
+						numAsteroids = 5;
+						asteroidsArray = new Array();
+						
+						ship = new Image();
+						ship.src="ship.png";
+						
+						asteroidImg = new Image();
+						asteroidImg.src="asteroid.png"
+						
+						redShip = new spaceShip(100,100,60,50,0,0);
+						
+						//setting up shapes
+						
+						for(var i=0; i < numShapes; i++){
+						
+						var x = Math.random()*canvasWidth;
+						var y = Math.random()*canvasHeight;
+						var width = 5;
+						var height = 5;
+						var vX = -4;
+						
+						shapesArray.push(new Shape(x,y,width,height,vX));
+	
+						};
+						
+						for(var i=0; i < numAsteroids; i++){
+						var x = canvasWidth+Math.random()*canvasWidth;
+						var y = Math.random()*canvasHeight;
+						var width = 60;
+						var height = 40;
+						var vX = -2;
+						
+						asteroidsArray.push(new asteroid(x,y,width,height,vX))
+						
+						
+						}
+						
+						animate();
+					
+					
+					};
+					
+					function animate(){
+					
+						shapesLength = shapesArray.length;
+
+						context.clearRect(0,0,canvasWidth+10,canvasHeight+10);
+	
+						for(var i=0; i < shapesLength; i++){
+						
+						tmpShape = shapesArray[i];
+		
+						context.fillStyle = "rgb(255,255,255)";
+						context.fillRect(tmpShape.x,tmpShape.y,tmpShape.width,tmpShape.height);
+						
+						tmpShape.x += tmpShape.vX;
+						
+							if(tmpShape.x+tmpShape.width < 0){
+								tmpShape.x = canvasWidth;
+								tmpShape.y = Math.random()*canvasHeight;
+								tmpShape.vX = -4;
+							
+							};
+
+						};
+						
+						redShip.y += redShip.vY;
+						
+						context.drawImage(ship,redShip.x,redShip.y,redShip.width,redShip.height);
+						 
+						asteroidsLength = asteroidsArray.length;
+						for(var j=0;  j < asteroidsLength; j++){
+							
+							tmpAsteroid = asteroidsArray[j];
+							
+							context.drawImage(asteroidImg,tmpAsteroid.x,tmpAsteroid.y,tmpAsteroid.width,tmpAsteroid.height);
+							tmpAsteroid.x += tmpAsteroid.vX;
+							
+							if(tmpAsteroid.x + tmpAsteroid.width <0){
+							tmpAsteroid.x = canvasWidth+Math.random()*canvasWidth;
+							tmpAsteroid.y = Math.random()*canvasHeight;
+							}
+							
+							if(!(tmpAsteroid.x +tmpAsteroid.width-10 < redShip.x) &&
+								!(tmpAsteroid.y + tmpAsteroid.height-15 < redShip.y) &&
+								!(redShip.x + redShip.width-10 < tmpAsteroid.x) &&
+								!(redShip.y +redShip.height-15 < tmpAsteroid.y)){
+								
+									playGame = false;
+									endGame.show();
+							
+								}
+							
+							
+						}
+						
+
+					
+					if(playGame){
+					
+						setTimeout(animate,33);
+					
+					};
+					
+						if(clickDown){
+						
+							redShip.vY = -3;
+							
+							} else {
+							
+							redShip.vY = 3;
+						
+						
+						};
+					
+						if(redShip.y < 0){
+						
+							redShip.y = 0;
+						};
+						
+						if(redShip.y+redShip.height > canvasHeight){
+						
+							playGame = false;
+							endGame.show();
+							
+						};
+						
+						
+					};
+					
+					init();
+					
+					
+			});
+				
+			
+			</script>
+		
+		</head>
+
+	<body>
+
+
+	
+		<p id="score">Score: 500</p>
+		<p id="gameOver">Game Over</p>
+	
+		<canvas id="game_canvas" width="500" height="300" ></canvas>
+
+	
+
+	</body>
+
+</html>
